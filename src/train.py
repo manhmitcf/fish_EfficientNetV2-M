@@ -60,7 +60,7 @@ val_dataset = FishDatasetWithAugmentation(
 
 # WeightedRandomSampler
 class_counts = train_dataset.data['score'].value_counts()
-class_weights = torch.tensor(1.0 / class_counts, dtype=torch.float32)
+class_weights = torch.tensor(1.0 / class_counts.values, dtype=torch.float32)
 sample_weights = train_dataset.data['score'].map(lambda x: class_weights[x - 2]).to_numpy()
 
 sampler = WeightedRandomSampler(weights=sample_weights, num_samples=len(sample_weights), replacement=True)
