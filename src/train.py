@@ -2,7 +2,7 @@ import argparse
 import torch
 import torch.optim as optim
 import torch.nn as nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, WeightedRandomSampler
 from dataset import FishDataset, transform
 from model import FishClassifier
 import os
@@ -26,8 +26,24 @@ NUM_CLASSES = 8
 # Load datasets
 train_dataset = FishDataset(TRAIN_CSV_PATH, IMG_DIR, transform=transform)
 val_dataset = FishDataset(VAL_CSV_PATH, IMG_DIR, transform=transform)
+# Load datasets
+train_dataset = FishDataset(TRAIN_CSV_PATH, IMG_DIR, transform=transform)
+val_dataset = FishDataset(VAL_CSV_PATH, IMG_DIR, transform=transform)
 
-train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+# Tính số lượng mẫu của từng lớp
+class_counts = train_dataset.data['label'].value_counts()
+
+# Tính trọng số cho từng lớp
+class_weights = 1.0 / class_counts
+
+# Tạo trọng số cho từng mẫu
+sample_weights = train_dataset.data['label'].map(class_weights).to_numpy()
+
+# Tạo sampler với trọng số
+sampler = WeightedRandomSampler(weights=sample_weights, num_samples=len(sample_weights), replacement=True)
+
+# Tạo DataLoader
+train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, sampler=sampler)
 val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 # Load model
