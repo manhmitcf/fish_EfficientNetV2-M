@@ -30,6 +30,9 @@ class FishDataset(Dataset):
         # Lấy nhãn và chuyển đổi
         label = self.data.iloc[idx, 1]  # Giả sử nhãn nằm ở cột thứ hai
         label = int(label)  # Chuyển nhãn thành số nguyên
+        label = label - 2  # Chuyển đổi nhãn về chỉ số lớp (0-7)
+        if label < 0 or label > 7:
+            raise ValueError(f"Nhãn '{label}' không hợp lệ. Phải nằm trong khoảng [2, 9].")
         label = torch.tensor(label, dtype=torch.long)  # Định dạng cho CrossEntropyLoss
         
         if self.transform:
