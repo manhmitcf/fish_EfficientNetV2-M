@@ -26,9 +26,6 @@ NUM_CLASSES = 8
 # Load datasets
 train_dataset = FishDataset(TRAIN_CSV_PATH, IMG_DIR, transform=transform)
 val_dataset = FishDataset(VAL_CSV_PATH, IMG_DIR, transform=transform)
-# Load datasets
-train_dataset = FishDataset(TRAIN_CSV_PATH, IMG_DIR, transform=transform)
-val_dataset = FishDataset(VAL_CSV_PATH, IMG_DIR, transform=transform)
 
 # Tính số lượng mẫu của từng lớp
 class_counts = train_dataset.data['score'].value_counts()
