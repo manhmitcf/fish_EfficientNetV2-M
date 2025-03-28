@@ -63,7 +63,12 @@ class_weights = class_weights / class_weights.sum()
 sample_weights = train_dataset.data['score'].map(class_weights).to_numpy()
 sample_weights = torch.tensor(sample_weights, dtype=torch.float32)
 sampler = WeightedRandomSampler(sample_weights, num_samples=len(sample_weights), replacement=True)
-train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE,shuffle=True, sampler=sampler)
+train_dataloader = DataLoader(
+    train_dataset, 
+    batch_size=BATCH_SIZE, 
+    shuffle=False,  # Đặt shuffle=False khi sử dụng sampler
+    sampler=sampler
+)
 val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE,shuffle=False)
 
 
