@@ -42,8 +42,7 @@ class FishDataset(Dataset):
 
 # Resize và thêm các kỹ thuật tăng cường dữ liệu
 transform = transforms.Compose([
-    transforms.Resize((256, 256), interpolation=transforms.InterpolationMode.BICUBIC),  # Resize lớn hơn một chút
-    transforms.RandomCrop((224, 224)),  # Cắt ngẫu nhiên về 224x224
+    transforms.Resize((480, 480), interpolation=transforms.InterpolationMode.BICUBIC),  # Resize lớn hơn một chút
     transforms.RandomHorizontalFlip(p=0.5),  # Lật ngang ngẫu nhiên
     transforms.RandomRotation(degrees=15),  # Xoay ngẫu nhiên trong khoảng [-15, 15] độ
     transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),  # Điều chỉnh độ sáng, màu sắc
