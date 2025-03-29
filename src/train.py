@@ -5,7 +5,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from torchvision import transforms
 from dataset import FishDatasetWithAugmentation
-from model import FishClassifier
+from model import FishClassifier  # Đảm bảo model là FishClassifier sử dụng MobileNetV2
 import os
 from tqdm import tqdm
 
@@ -48,7 +48,7 @@ train_dataset = FishDatasetWithAugmentation(
     img_dir=IMG_DIR,
     transform=basic_transform,
     aug_transform=minority_aug_transform,
-    minority_classes=[0,1,2,3,5,6,7]  # Cần cập nhật lớp thiểu số theo bài toán
+    minority_classes=[0, 1, 2, 3, 5, 6, 7]  # Cần cập nhật lớp thiểu số theo bài toán
 )
 
 val_dataset = FishDatasetWithAugmentation(
@@ -69,8 +69,7 @@ train_dataloader = DataLoader(
     shuffle=False,  # Đặt shuffle=False khi sử dụng sampler
     sampler=sampler
 )
-val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE,shuffle=False)
-
+val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 # Load model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
